@@ -82,7 +82,8 @@ def menu():
         f"\n1) New entry"
         f"\n2) Search by tag"
         f"\n3) Remove entry"
-        f"\n4) Generate password")
+        f"\n4) Generate password"
+        f"\n5) Quit")
     user_input = input("> ")
     try:
         if int(user_input) == 1:
@@ -93,6 +94,8 @@ def menu():
             Entry().user_search("data.json", True)
         elif int(user_input) == 4:
             Entry().generate_password()
+        elif int(user_input) == 5:
+            quit()
         else:
             print("Invalid selection")
             menu()
