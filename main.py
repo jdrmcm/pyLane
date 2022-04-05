@@ -17,13 +17,13 @@ class Entry:
         self.user, self.tag, self.password = username_entry, tag_entry, password_entry
         self.write_info()
 
-
     def write_info(self):
         with open(self.file, "r+") as read_file:
             data = json.load(read_file)
             data["tags"].append(self.tag)
             data["usernames"].append(self.user)
             data["passwords"].append(self.password)
+
 
             read_file.seek(0)
             # convert back to json.
@@ -33,4 +33,3 @@ class Entry:
 
 if __name__ == "__main__":
     Entry().user_input("data.json")
-
