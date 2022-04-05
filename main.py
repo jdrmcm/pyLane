@@ -3,20 +3,47 @@ import os
 
 
 class Entry:
-    def write_info(self, tags, usernames, passwords):
-        with open(file, "w") as write_file:
-            data = {
-                "tags": tags,
-                "usernames": usernames,
-                "passwords": passwords
+    def __init__(self):
+        self.user = ""
+        self.tag = ""
+        self.password = ""
+        self.dict = {
+                "tags": self.tag,
+                "usernames": self.user,
+                "passwords": self.password
             }
-            json.dump(data, write_file)
 
-    def input_info(self, tag, user, pw):
-        tags.append(tag)
-        usernames.append(user)
-        passwords.append(pw)
-        self.write_info(tags, usernames, passwords)
+
+    def user_input(self):
+        tag_entry = input("Input a tag: ")
+        username_entry = input("Input a username: ")
+        password_entry = input("Input a password: ")
+        self.user, self.tag, self.password = username_entry, tag_entry, password_entry
+
+
+        # tags.append(tag_entry)
+        # usernames.append(username_entry)
+        # passwords.append(password_entry)
+        self.write_info()
+
+
+    def write_info(self):
+        with open(file, "r+") as read_file:
+            data = json.load(read_file)
+            print(data)
+            new_entry = {
+                "tags": self.tag ,
+                "usernames": self.user,
+                "passwords": self.password
+            }
+
+            data.append(new_entry)
+            read_file.seek(0)
+            # convert back to json.
+            json.dump(data, read_file, indent=0)
+            print(data)
+
+
 
 
 file = "data.json"
@@ -24,27 +51,14 @@ tags = []
 usernames = []
 passwords = []
 
-entry = Entry()
-
-template = {
-    "tags": [],
-    "usernames": [],
-    "passwords": []
-}
-
-if os.path.exists(file):
-    pass
-else:
-    with open(file, "w") as f:
-        json.dump(template, f)
 
 
 def read_info():
     with open(file, "r") as read_file:
         data = json.load(read_file)
-        tags = data.get("tags")
-        usernames = data.get("usernames")
-        passwords = data.get("passwords")
+        print(data)
+
+
 
 
 def debug_info():
@@ -54,14 +68,11 @@ def debug_info():
         passwords)
 
 
-def user_input():
-    tag = input("Input a tag: ")
-    user = input("Input a username: ")
-    pw = input("Input a password: ")
-    entry.input_info(tag, user, pw)
+if __name__ == "__main__":
 
+    Entry().user_input()
 
 debug_info()
-user_input()
+
 read_info()
 debug_info()
