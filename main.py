@@ -7,11 +7,6 @@ class Entry:
         self.user = ""
         self.tag = ""
         self.password = ""
-        self.dict = {
-                "tags": self.tag,
-                "usernames": self.user,
-                "passwords": self.password
-            }
         self.file = ""
 
     def user_input(self, file):
@@ -26,23 +21,6 @@ class Entry:
     def write_info(self):
         with open(self.file, "r+") as read_file:
             data = json.load(read_file)
-            # This new_entry should only be used if you have a sorting tag to insert each dict underneath
-            # Such an entry might take the form of name or something so your file format would look like
-            # name:
-            #   tags: tag
-            #   username: username
-            #   password: password
-            # Then repeat...
-            #
-            # new_entry = {
-            #     "tags": self.tag,
-            #     "usernames": self.user,
-            #     "passwords": self.password
-            # }
-            # // The error was happening here because this is appending a dictionary where the "Tags" were
-            # // needs instead to append each of the inputs to proper spot.. so instead of:
-            # data.append(new_entry)
-            #  We should have this:
             data["tags"].append(self.tag)
             data["usernames"].append(self.user)
             data["passwords"].append(self.password)
