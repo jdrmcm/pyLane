@@ -1,3 +1,5 @@
+import random
+import string
 import json
 
 
@@ -16,6 +18,15 @@ class Entry:
         self.user, self.tag, self.password = username_entry, tag_entry, password_entry
         self.write_info()
 
+    def generate_password(self):    # add something to let user choose length and character types
+        characters = string.ascii_letters + string.digits + string.punctuation
+        password = "".join(random.choice(characters) for i in range(15))
+        print(f"Generated password: {password}")
+        print("Press enter to return to the main menu.")
+        input()
+        menu()
+        # add some functionality for automatically adding this to db with tag and username
+
     def user_search(self, file, remove):
         self.file = file
         tag_search = input("Input a tag: ")
@@ -28,6 +39,10 @@ class Entry:
                 print("PASSWORD: " + data["passwords"][entry])
                 if remove:
                     self.remove_entry(file, entry)
+                else:
+                    print("Press enter to return to the main menu.")
+                    input()
+                    menu()
 
     def remove_entry(self, file, entry):
         self.file = file
@@ -57,6 +72,7 @@ class Entry:
             read_file.seek(0)
             # convert back to json.
             json.dump(data, read_file, indent=0)
+            print("Entry added.")
             menu()
 
 
@@ -65,14 +81,21 @@ def menu():
         f"Please select a menu option by its number:"
         f"\n1) New entry"
         f"\n2) Search by tag"
-        f"\n3) Remove entry")
+        f"\n3) Remove entry"
+        f"\n4) Generate password")
     user_input = input("> ")
     try:
-        match int(user_input):
-            case 1: Entry().user_input("data.json")
-            case 2: Entry().user_search("data.json", False)
-            case 3: Entry().user_search("data.json", True)
-            case _: print("Invalid input")
+        if int(user_input) == 1:
+            Entry().user_input("data.json")
+        elif int(user_input) == 2:
+            Entry().user_search("data.json", False)
+        elif int(user_input) == 3:
+            Entry().user_search("data.json", True)
+        elif int(user_input) == 4:
+            Entry().generate_password()
+        else:
+            print("Invalid selection")
+            menu()
     except Exception as e:
         print(f"[!] ERROR: {e}")
         menu()
